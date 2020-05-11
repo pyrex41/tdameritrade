@@ -13,6 +13,10 @@ class TDASession(requests.Session):
                              'expires_in': -1}  # Set to -1 so that it gets refreshed immediately and its age tracked.
         self._client_id = client_id
         self._headers = {}
+        self._refresh_token_if_invalid()
+
+    def __call__(self):
+        return self._accessToken
 
     def _set_header_auth(self):
         self._headers.update({'Authorization': 'Bearer ' + self._accessToken['token']})
